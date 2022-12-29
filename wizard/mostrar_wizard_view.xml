@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_update_wizard_form" model="ir.ui.view">
+        <field name="name">mostrar.wizard</field>
+        <field name="model">mostrar.wizard</field>  
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                  <group>
+                        <field name="picking_quantity"   style="width:40%%"/>
+                        <field name="formatear"  style="width:40%%" widget="radio"  />
+                  </group>
+                  <group>   
+                        <field name="extra_html"  style="width:40%%"  />
+                  </group>
+                </sheet>
+            <footer>
+                <button string="Confirmar" class="oe_highlight" type="object" name="create_report"/>
+                <button string="Cancelar"  special="cancel"/>
+            </footer>
+            </form>
+           
+        </field>    
+    </record>
+
+            <!--acción que dispara el popup-->
+            <record id="action_open_mostrar_wizard" model="ir.actions.act_window">
+                <field name="name">Elegir diseños de etiquetas</field>
+                <field name="res_model">mostrar.wizard</field>
+                <field name="view_mode">form</field>
+                <field name="view_id" ref="view_update_wizard_form"/>
+                <field name="target">new</field>
+            </record>
+    
+    
+    <!--llamado al boton de imprimir rotulo-->
+  
+    <report
+		  id="report_etiqueta"
+		  model="stock.picking"
+		  string="Etiqueta"
+		  report_type="qweb-pdf"
+		  name="tag_print.report_custom_template"
+      paperformat="tag_print.paperformat_etiqueta"
+      file="tag_print.report_etiqueta"
+        />
+           
+                  <template id="report_custom_template">
+                        <t t-call="web.html_container">
+                          <t t-foreach="docs" t-as="o">
+                        
+                          <!--ARTICLE -->
+                          <div class="article" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id">
+                            <!--HEADER-->
+                            <div class="header" style="padding-bottom:10px;">
+                            </div><!--END HEADER-->
+                            <div class=" text-center ;background-color: #ffe703;">
+                              
+                            <br/>  
+                            <br/>
+                        
+                          
+
+                          </div>
+                            <br/>  
+                            <br/>
+                        
+                        <!--Nombre del producto-->
+                        <div class="text-center">
+                          <div class="text-center">
+                          
+                          </div>
+                        </div>
+                        
+                        
+                        
+                      
+                        <!--Mensaje-->
+                        <div class="text-center">
+                        <!--<h5>Dirección de cliente : <span t-field="o.partner_id.contact_address" style="font-weight: bold; text-center"/></h5><br/>-->
+                        <h5>Cliente :<span t-field="o.partner_id" style="font-weight: bold; text-center"/></h5><br/>
+                        <h5>Denominacion del Transportista : </h5>
+                        <h5>Dirección de transportista : </h5> 
+                        <!--Denominacion del transportista-->
+                        <!--<h5>Denominacion del Transportista : </h5><h5><span t-field="o.carrier_id" style="font-weight: bold; text-center"/></h5><br/>-->
+                        <!--Direccion del transportista-->
+                        <!--<h5>Dirección de transportista : </h5><h5><span t-field="o.carrier_id.contact_address" style="font-weight: bold; text-center"/></h5><br/>-->
+
+                      
+                                </div>
+                            </div><!--END ARTICLE-->
+                    
+                        </t>
+                      </t>
+                        
+                  </template>    
+
+
+  <!--Formato de la hoja-->
+  <record id="paperformat_etiqueta" model="report.paperformat">
+       <field name="default" eval="False"/>
+        <field name="format">custom</field>
+        <field name="orientation">Portrait</field>   
+        <field name="page_height">110</field>   
+        <field name="page_width">150</field>   
+        <field name="margin_top">0</field>
+        <field name="margin_bottom">0</field>
+        <field name="margin_left">0</field>
+        <field name="margin_right">0</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">0</field>
+        <field name="dpi">95</field>
+  </record>
+  
+
+
+
+
+
+  
+
+
+
+
+</odoo>
